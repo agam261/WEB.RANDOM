@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Website Pribadi Morphing Slide</title>
+<style>
+  /* Reset & dasar */
+  html, body {
+    margin: 0; padding: 0;
+    width: 100vw; height: 100vh;
+    font-family: 'times new roman', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background:#20222c;
+    color: white;
+  }
+  /* Container slider */
+  .slider {
+    display: flex;
+    height: 100vh;
+    width: 500vw; /* 5 slide x 100vw */
+    transition: transform 0.8s cubic-bezier(.77,0,.18,1);
+  }
+  /* Setiap slide */
+  .slide {
+    flex: 0 0 100vw;
+    height: 100vh;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  /* Background tiap halaman slide */
+  .slide-bg-login {
+    background-image: url('foto33.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .slide-bg-2 {
+    background-image: url('bg2.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    flex-direction: column;
+  }
+  .slide-bg-3 {
+    background-image: url('foto 1.jpeg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    padding: 100px 50px 50px 50px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .slide-bg-4 {
+    background-image: url('bg4.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    flex-direction: column;
+    padding: 90px 30px 30px 30px;
+    text-align: center;
+  }
+  .slide-bg-5 {
+    background-image: url('foto 6.jpeg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    flex-direction: column;
+    padding: 90px 40px 40px 40px;
+    text-align: center;
+  }
+
+  /* Login halaman terpisah fullscreen */
+  #login-form {
+    background: rgba(5, 5, 5, 0.95);
+    border-radius: 20px;
+    padding: 40px 30px;
+    min-width: 320px;
+    max-width: 400px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+    color: #155348;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #login-form h2 {
+    margin: 0;
+    color: #218856;
+    font-size: 1.7em;
+    text-align: center;
+    letter-spacing: 1.2px;
+  }
+  #login-form input {
+    padding: 12px 14px;
+    font-size: 1em;
+    border-radius: 10px;
+    border: 1.8px solid #cbeede;
+    outline: none;
+  }
+  #login-form input::placeholder {
+    color: #666;
+  }
+  #login-form button {
+    background-color: #7dffd0;
+    border: none;
+    padding: 12px 0;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 900;
+    cursor: pointer;
+    color: #155348;
+    box-shadow: 0 3px 20px rgba(0, 255, 145, 0.15);
+    transition: background-color 0.3s ease;
+  }
+  #login-form button:hover {
+    background-color: #00fd48;
+  }
+
+  /* Halaman 2: Selamat Datang */
+  .welcome-content {
+    text-align: bold;
+  }
+  .welcome-content h1 {
+    font-size: 2.1em;
+    margin-bottom: 40px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  }
+  .logo-row {
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+  }
+  .logo-row img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    background: rgb(1, 1, 1);
+    border-radius: 14px;
+    padding: 8px;
+    box-shadow: 0 3px 13px rgba(30,30,30,0.12);
+    cursor: default;
+    user-select: none;
+  }
+
+  /* Halaman 3: Biodata */
+  .biodata-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 960px;
+    color: #fffcfc;
+  }
+  .biodata-text {
+    flex: 1;
+    line-height: 1.5;
+    font-size: 1.15em;
+    font-weight: 600;
+    letter-spacing: 0.9px;
+  }
+  .biodata-text > div {
+    margin-bottom: 1.5em;
+    text-align: left;
+  }
+  .biodata-text strong {
+    font-weight: 900;
+  }
+  .biodata-photo {
+    width: 170px;
+    height: 170px;
+    border-radius: 0%;
+    object-fit: cover;
+    border: 4.5px solid #000000;
+    box-shadow: 0 6px 25px #000000;
+    margin-left: 40px;
+  }
+
+  /* Halaman 4: Tentang Saya */
+  .about-title {
+    font-size: 2.5em;
+    margin-bottom: 50px;
+    font-weight: 900;
+    letter-spacing: 2.4px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  }
+  .about-text {
+    font-size: 1.2em;
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 500;
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  }
+
+  /* Halaman 5: Portofolio */
+  .portfolio-title {
+    font-size: 2.5em;
+    font-weight: 900;
+    margin-bottom: 35px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  }
+  .portfolio-content {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .skills-list {
+    font-size: 1.15em;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: left;
+    color: #d9f1e4;
+  }
+  .skills-list ul {
+    padding-left: 1.3em;
+    line-height: 1.6;
+    list-style-type: disc;
+  }
+  .prog-langs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .lang-box {
+    min-width: 110px;
+    background: rgb(0, 0, 0);
+    border: 2.3px solid #ffffff;
+    border-radius: 12px;
+    padding: 14px 22px;
+    font-weight: 600;
+    font-size: 1.05em;
+    color: #ffffff;
+    text-align: center;
+    user-select: none;
+    cursor: default;
+  }
+
+  /* Navigasi tombol */
+  .nav-btn {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #7dffd0;
+    border: none;
+    border-radius: 12px;
+    color: #155348;
+    font-weight: 900;
+    font-size: 1.1em;
+    padding: 15px 45px;
+    cursor: pointer;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.12);
+    transition: background-color 0.3s ease;
+    z-index: 5;
+    user-select: none;
+  }
+  .nav-btn:hover {
+    background: #59e4a8;
+  }
+
+  /* Tombol kembali ke halaman awal di halaman 5 */
+  .back-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    background: #7dffd0;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-weight: 900;
+    font-size: 1em;
+    cursor: pointer;
+    color: #155348;
+    box-shadow: 0 3px 18px rgba(0,0,0,0.16);
+    transition: background-color 0.3s ease;
+    user-select: none;
+    z-index: 10;
+  }
+  .back-btn:hover {
+    background: #fd0000;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .slide-bg-3 {
+      flex-direction: column;
+      padding: 60px 25px 40px 25px;
+      align-items: center;
+      text-align: center;
+    }
+    .biodata-text {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .biodata-photo {
+      margin: 0;
+    }
+    .portfolio-content, .about-text {
+      padding: 0 15px;
+    }
+  }
+  @media (max-width: 480px) {
+    .nav-btn {
+      padding: 12px 30px;
+      font-size: 1em;
+    }
+    .back-btn {
+      padding: 10px 20px;
+      font-size: 0.9em;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Slider container -->
+<div class="slider" id="slider">
+
+  <!-- Halaman 1: Login (terpisah halaman dengan background foto) -->
+  <section class="slide slide-bg-login" aria-label="Halaman Login" role="region">
+    <form id="login-form" novalidate>
+      <h2>Jangan Lupa Login Dulu ya!!🙏😊</h2>
+      <input type="text" name="username" placeholder="Username" autocomplete="username" />
+      <input type="password" name="password" placeholder="Password" autocomplete="current-password" />
+      <button type="submit">LOGIN</button>
+    </form>
+  </section>
+
+  <!-- Halaman 2: Selamat Datang -->
+  <section class="slide slide-bg-2" aria-label="Halaman Selamat Datang" role="region">
+    <div class="welcome-content">
+      <h1>SELAMAT DATANG DI WEB SAYA</h1>
+      <div class="logo-row" aria-label="Logo aplikasi sosial media">
+        <img src="logo wa.jpeg" alt="Logo WhatsApp" />
+        <img src="logo ig.jpg" alt="Logo Instagram" />
+        <img src="logo tiktok.jpeg" alt="Logo TikTok" />
+      </div>
+    </div>
+    <button class="nav-btn" aria-label="Lanjut ke halaman berikutnya" onclick="nextSlide()">KLIK SELANJUTNYA</button>
+  </section>
+
+  <!-- Halaman 3: Biodata Saya -->
+  <section class="slide slide-bg-3" aria-label="Halaman Biodata Saya" role="region">
+    <div class="biodata-container" aria-labelledby="bio-title">
+      <div class="biodata-text" tabindex="0">
+        <h2 id="bio-title" style="text-align:center; margin-bottom:1em;">BIODATA SAYA</h2>
+        <div><strong>NAMA:</strong> AGAM AL HAKIM HASIBUAN</div>
+        <div><strong>JURUSAN:</strong> TEKNIK INFORMATIKA</div>
+        <div><strong>PRODI:</strong> S1 TEKNIK INFORMATIKA</div>
+        <div><strong>UNIVERSITAS:</strong> UNIVERSITAS PAHLAWAN TUANKU TAMBUSAI</div>
+      </div>
+      <img src="20.jpg" alt="Foto Profil Agam" class="biodata-photo" />
+    </div>
+    <button class="nav-btn" aria-label="Lanjut ke halaman berikutnya" onclick="nextSlide()">KLIK SELANJUTNYA</button>
+  </section>
+
+  <!-- Halaman 4: Tentang Saya -->
+  <section class="slide slide-bg-4" aria-label="Halaman Tentang Saya" role="region">
+    <h2 class="about-title">TENTANG SAYA</h2>
+    <p class="about-text" tabindex="0">
+    hai saya agam saya adalah mahasiswa S1 Teknik Informatika di Universitas Pahlawan Tuanku Tambusai.<br />
+    dan saya juga Memiliki semangat belajar tinggi, adaptif terhadap teknologi baru, menyukai pemrograman web dan selalu ingin mengembangkan diri di dunia teknologi.
+    terutama di bidang tekhnologi Ai,dan cyber security
+    </p>
+    <button class="nav-btn" aria-label="Lanjut ke halaman berikutnya" onclick="nextSlide()">KLIK SELANJUTNYA</button>
+  </section>
+
+  <!-- Halaman 5: Portofolio Saya -->
+  <section class="slide slide-bg-5" aria-label="Halaman Portofolio Saya" role="region">
+    <h2 class="portfolio-title">PORTOFOLIO SAYA</h2>
+    <div class="portfolio-content" tabindex="0">
+      <div class="skills-list">
+        <strong>KEAHLIAN SAYA👇👇</strong>
+        <ul>
+          <li>Pembuatan website responsif & interaktif backand/frontednd</li>
+          <li>Desain grafis dari pembuatan landing page,desain UI/UX</li>
+          <li>Joki tugas dan konsultasi IT</li>
+        </ul>
+      </div>
+      <div class="skills-list">
+        <strong>BAHASA PEMROGRAMAN YANG DIKUASAI👇👇</strong>
+      </div>
+      <div class="prog-langs" role="list" aria-label="Bahasa Pemrograman">
+        <div class="lang-box" role="listitem">HTML/100%</div>
+        <div class="lang-box" role="listitem">CSS/100%</div>
+        <div class="lang-box" role="listitem">JavaScript/100%</div>
+        <div class="lang-box" role="listitem">Golang/100%</div>
+        <div class="lang-box" role="listitem">C/100%</div>
+        <div class="lang-box" role="listitem">C++/100%</div>
+        <div class="lang-box" role="listitem">PHP/100%</div>
+      </div>
+    </div>
+    <button class="back-btn" aria-label="Kembali ke halaman awal" onclick="backToStart()">Kembali ke Halaman Awal</button>
+  </section>
+
+</div>
+
+<script>
+  const slider = document.getElementById('slider');
+  const slidesCount = slider.children.length;
+  let currentIndex = 0;
+
+  // Fungsi pindah slide ke next
+  function nextSlide() {
+    if (currentIndex < slidesCount - 1) {
+      currentIndex++;
+      updateSlider();
+    }
+  }
+  // Fungsi kembali ke slide awal (login)
+  function backToStart() {
+    currentIndex = 0;
+    updateSlider();
+  }
+  // Update posisi slider sesuai currentIndex
+  function updateSlider() {
+    slider.style.transform = `translateX(-${currentIndex * 100}vw)`;
+  }
+
+  // Event submit login form: bisa login kosong opsional
+  const loginForm = document.getElementById('login-form');
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Langsung lanjut ke halaman 2
+    nextSlide();
+  });
+
+  // Swipe gesture untuk mobile (kanan/kiri)
+  let startX = 0;
+  slider.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+  });
+  slider.addEventListener('touchend', e => {
+    let endX = e.changedTouches[0].clientX;
+    if (startX - endX > 75) { // geser ke kiri >> next slide
+      nextSlide();
+    } else if (endX - startX > 75) { // geser ke kanan << prev slide
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateSlider();
+      }
+    }
+  });
+
+  // Inisialisasi saat load
+  window.addEventListener('load', () => {
+    updateSlider();
+  });
+
+  // Shortcut keyboard arrow
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') nextSlide();
+    if (e.key === 'ArrowLeft' && currentIndex > 0) {
+      currentIndex--;
+      updateSlider();
+    }
+  });
+</script>
+
+</body>
+</html>
